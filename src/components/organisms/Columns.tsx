@@ -1,6 +1,6 @@
 "use client"
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "../ui/button"
 import { MoreHorizontal } from "lucide-react"
@@ -45,7 +45,7 @@ export const columns: ColumnDef<Medicine>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const medicine = row.original
+      // const medicine = row.original
  
       return (
         <DropdownMenu>

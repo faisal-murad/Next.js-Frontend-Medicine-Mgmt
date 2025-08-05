@@ -36,7 +36,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       } else {
         setError(result.error || 'Login failed');
       }
-    } catch (err: unknown) {
+    } catch (error: unknown) {
 
       if (typeof error === "object" && error !== null && "response" in error) {
         const err = error as { response?: { data?: { message?: string } } };
