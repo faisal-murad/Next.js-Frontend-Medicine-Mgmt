@@ -44,7 +44,8 @@ export const columns: ColumnDef<Medicine>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    // cell: ({ row }) => {
+    cell: () => {
       // const medicine = row.original
  
       return (

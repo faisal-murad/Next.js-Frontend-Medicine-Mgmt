@@ -4,7 +4,7 @@ import { Layout } from '@/components/layout/Layout';
 import { DashboardTemplate } from '@/components/templates/dashboardTemplate/DashboardTemplate';
 import React from 'react'
 
-const page = () => {
+const Page = () => {
 
   const { loading } = useAuth() as { loading: boolean }
 
@@ -23,4 +23,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
