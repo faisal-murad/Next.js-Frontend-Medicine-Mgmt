@@ -1,12 +1,12 @@
 'use client'
-import { useAuth } from '@/components/context/AuthContext'   
-import { Layout } from '@/components/layout/Layout'; 
+import { useAuth } from '@/components/context/AuthContext'
+import { Layout } from '@/components/layout/Layout';
 import { DashboardTemplate } from '@/components/templates/dashboardTemplate/DashboardTemplate';
 import React from 'react'
 
 const page = () => {
 
-  const { loading }: any = useAuth();
+  const { loading } = useAuth() as { loading: boolean }
 
 
   if (loading) {
@@ -16,10 +16,10 @@ const page = () => {
       </div>
     );
   }
-  return ( 
-      <Layout> 
-        <DashboardTemplate />
-      </Layout> 
+  return (
+    <Layout>
+      <DashboardTemplate />
+    </Layout>
   )
 }
 

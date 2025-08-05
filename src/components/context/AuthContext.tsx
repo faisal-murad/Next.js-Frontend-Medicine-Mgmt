@@ -1,8 +1,9 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import axiosInstance from '@/lib/axiosInstance';
 import { useRouter } from "next/navigation";
+import type { LoginResponse } from "../../types/LoginResponse";
 
 export const AuthContext = createContext({});
 
@@ -15,7 +16,7 @@ export const useAuth = () => {
   return context;
 };
 
-export const AuthProvider = ({ children }: any) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -27,18 +28,18 @@ export const AuthProvider = ({ children }: any) => {
     const userData = localStorage.getItem("user");
 
     if (token && userData) {
-      setUser(JSON.parse(userData));      
+      setUser(JSON.parse(userData));
       setIsAuthenticated(true);
-    // } else {
-    //   router.replace('/login')
-    //   return;
+      // } else {
+      //   router.replace('/login')
+      //   return;
     }
-    
+
     setLoading(false);
   }, []);
 
   // Login function
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<LoginResponse> => {
 
 
 
@@ -61,52 +62,25 @@ export const AuthProvider = ({ children }: any) => {
 
 
       return { success: true, user: userData };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login error:", error);
-      return { success: false, error: error.response?.data?.message || "Login failed" };
+
+      if (typeof error === "object" && error !== null && "response" in error) {
+        const err = error as { response?: { data?: { message?: string } } };
+        return { success: false, error: err.response?.data?.message || "Login failed" };
+      }
+      
+    return { success: false, error: "Login failed" };
     } finally {
       setLoading(false);
     }
   };
-
-  // Logout function
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setUser(null);
-  };
-
-  // Register function
-  const register = async (userData: any) => {
-    try {
-      setLoading(true);
-      // You can implement registration logic here
-      // For now, we'll simulate a successful registration
-      const mockUser = {
-        id: Date.now(),
-        email: userData.email,
-        firstName: userData.firstName,
-        lastName: userData.lastName
-      } as any;
-
-      setUser(mockUser);
-      localStorage.setItem("user", JSON.stringify(mockUser));
-
-      return { success: true, user: mockUser };
-    } catch (error) {
-      console.error("Registration error:", error);
-      return { success: false, error: "Registration failed" };
-    } finally {
-      setLoading(false);
-    }
-  };
+ 
 
   const value = {
     user,
     loading,
-    login,
-    logout,
-    register,
+    login, 
     isAuthenticated: !!user
   };
 

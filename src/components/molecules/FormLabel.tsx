@@ -2,8 +2,18 @@ import React, { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 
+type FormFieldProps = {
+  children: React.ReactNode;
+  htmlFor: string;
+  type: string;
+  name: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+};
 
-export const FormField = ({ children, htmlFor, type, name, value, onChange, required }: any) => {
+
+export const FormField = ({ children, htmlFor, type, name, value, onChange, required }: FormFieldProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordField = type === 'password';
   const inputType = isPasswordField ? (showPassword ? 'text' : 'password') : type;
@@ -28,7 +38,7 @@ export const FormField = ({ children, htmlFor, type, name, value, onChange, requ
           className={`w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all duration-300 hover:border-gray-600 ${
             isPasswordField ? 'pr-12' : ''
           }`}
-          placeholder={`Enter your ${children.toLowerCase()}`}
+          placeholder={`Enter your ${String(children).toLowerCase()}`}
         />
         {isPasswordField && (
           <button

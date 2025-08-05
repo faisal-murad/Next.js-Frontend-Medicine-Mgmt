@@ -11,18 +11,20 @@ export const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogout = async () => {
-    setLoading(true);
-    try {
-      await axiosInstance.post('/auth/logout');
-    } catch (error: any) { 
-    } finally { 
-      toast.success('Logged out successfully');
-      document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      router.replace('/login');
-      setLoading(false);
-    }
+const handleLogout = async (): Promise<void> => {
+  setLoading(true);
+  try {
+    await axiosInstance.post('/auth/logout');
+  } catch (error) {
+    console.error("Logout error:", error);
+    toast.error('Failed to logout');
+  } finally {
+    toast.success('Logged out successfully');
+    document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.replace('/login');
+    setLoading(false);
   }
+};
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 z-10 bg-black border-b border-gray-800 shadow-2xl fixed top-0">
@@ -150,7 +152,7 @@ export const Navbar = () => {
 }
 
 // Professional Medical Icons
-function MenuIcon(props: any) {
+function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <line x1="4" x2="20" y1="12" y2="12" />
@@ -160,7 +162,7 @@ function MenuIcon(props: any) {
   )
 }
 
-function MedicalIcon(props: any) {
+function MedicalIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 12h6m-3-3v6" />
@@ -169,7 +171,7 @@ function MedicalIcon(props: any) {
   )
 }
 
-function DashboardIcon(props: any) {
+function DashboardIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect width="7" height="9" x="3" y="3" rx="1" />
@@ -180,7 +182,7 @@ function DashboardIcon(props: any) {
   )
 }
 
-function MedicineIcon(props: any) {
+function MedicineIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" />
@@ -189,7 +191,7 @@ function MedicineIcon(props: any) {
   )
 }
 
-function PatientIcon(props: any) {
+function PatientIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -200,7 +202,7 @@ function PatientIcon(props: any) {
   )
 }
 
-function LogoutIcon(props: any) {
+function LogoutIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />

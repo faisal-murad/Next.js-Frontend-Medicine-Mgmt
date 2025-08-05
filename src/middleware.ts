@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 // Method 1: JWT Token Validation (recommended)
-export async function middleware(request: any) {
+export async function middleware(request: NextResponse) {
   const token = request.cookies.get("token")?.value;
   
   if (!token) {

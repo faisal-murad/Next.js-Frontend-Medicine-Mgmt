@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { FaLock } from "react-icons/fa";
+import { LoginResponse } from "@/types/LoginResponse";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -13,16 +14,17 @@ export const LoginForm = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login }: any = useAuth();
+  const { login } = useAuth() as { login: (email: string, password: string) => Promise<LoginResponse> };
 
-  const handleChange = (e: any) => {
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault(); // This is crucial to prevent form default behavior
     setError('');
     setLoading(true);
@@ -35,8 +37,14 @@ export const LoginForm = () => {
       } else {
         setError(result.error || 'Login failed');
       }
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+    } catch (err: unknown) {
+
+      if (typeof error === "object" && error !== null && "response" in error) {
+        const err = error as { response?: { data?: { message?: string } } };
+        setError(err.response?.data?.message || 'An unexpected error occurred');
+      }
+
+      return { success: false, error: "Login failed" };
     } finally {
       setLoading(false);
     }
@@ -48,13 +56,13 @@ export const LoginForm = () => {
       <div className="bg-black border border-gray-800 rounded-2xl shadow-2xl overflow-hidden">
         {/* Subtle top accent line */}
         <div className="h-1 bg-gradient-to-r from-gray-700 via-white to-gray-700"></div>
-        
+
         <div className="p-8">
           {/* Header with medical cross icon */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-lg">
-             
-             <FaLock className="h-8 w-8 text-black" />
+
+              <FaLock className="h-8 w-8 text-black" />
             </div>
             <h2 className="text-2xl font-light text-white mb-2 tracking-wide">Welcome Back</h2>
             <p className="text-gray-400 text-sm font-light">Enter your credentials to access your medical dashboard</p>
@@ -81,7 +89,7 @@ export const LoginForm = () => {
             >
               Email Address
             </FormField>
-            
+
             <FormField
               htmlFor="password"
               type="password"
@@ -94,9 +102,9 @@ export const LoginForm = () => {
             </FormField>
 
             {/* FIXED: Changed onClick to type="submit" and removed onClick handler */}
-            <Button 
+            <Button
               type="submit"
-              disabled={loading} 
+              disabled={loading}
               className="w-full py-4 bg-white text-black font-medium rounded-lg transition-all duration-300 hover:bg-gray-100 hover:shadow-lg transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:bg-white"
             >
               <div className="flex items-center justify-center space-x-2">
@@ -110,7 +118,7 @@ export const LoginForm = () => {
 
           {/* Professional footer */}
           <div className="mt-8 pt-6 border-t border-gray-800">
-            <div className="text-center"> 
+            <div className="text-center">
               <p className="text-gray-600 text-xs mt-2">
                 Secured with enterprise-grade encryption
               </p>
