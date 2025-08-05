@@ -23,8 +23,7 @@ export const LoginForm = () => {
       [e.target.name]: e.target.value
     });
   };
-
-  const handleSubmit = async (e: React.ChangeEvent<HTMLInputElement>) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // This is crucial to prevent form default behavior
     setError('');
     setLoading(true);

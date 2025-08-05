@@ -17,8 +17,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null); 
   const [loading, setLoading] = useState(true);
   const router = useRouter()
 
@@ -28,8 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const userData = localStorage.getItem("user");
 
     if (token && userData) {
-      setUser(JSON.parse(userData));
-      setIsAuthenticated(true);
+      setUser(JSON.parse(userData)); 
       // } else {
       //   router.replace('/login')
       //   return;
