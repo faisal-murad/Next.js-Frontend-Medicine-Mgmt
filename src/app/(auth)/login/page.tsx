@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react'
-import axiosInstance from '@/lib/axiosInstance';
+// import axiosInstance from '@/lib/axiosInstance';
 import { AuthProvider } from '@/components/context/AuthContext';  
 import LoginTemplate from '@/components/templates/loginTemplate/LoginTemplate';
 

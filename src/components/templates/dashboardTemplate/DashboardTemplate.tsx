@@ -1,6 +1,6 @@
 import { columns, Medicine } from "@/components/organisms/Columns";
 import { DataTable } from "@/components/organisms/DataTable"
-import axiosInstance from "@/lib/axiosInstance"  
+// import axiosInstance from "@/lib/axiosInstance"  
 import React, { useEffect } from "react";
 
 async function getData(): Promise<Medicine[]> { 
