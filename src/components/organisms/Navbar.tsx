@@ -2,8 +2,8 @@ import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { DialogTitle } from "@radix-ui/react-dialog"
-import axiosInstance from "@/lib/axiosInstance"
-import { toast } from "sonner"
+// import axiosInstance from "@/lib/axiosInstance"
+// import { toast } from "sonner"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -13,17 +13,18 @@ export const Navbar = () => {
 
 const handleLogout = async (): Promise<void> => {
   setLoading(true);
-  try {
-    await axiosInstance.post('/auth/logout');
-  } catch (error) {
-    console.error("Logout error:", error);
-    toast.error('Failed to logout');
-  } finally {
-    toast.success('Logged out successfully');
-    document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    router.replace('/login');
-    setLoading(false);
-  }
+  // try {
+  //   await axiosInstance.post('/auth/logout');
+  // } catch (error) {
+  //   console.error("Logout error:", error);
+  //   toast.error('Failed to logout');
+  // } finally {
+  //   toast.success('Logged out successfully');
+  //   document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  //   router.replace('/login');
+  //   setLoading(false);
+  // }
+  router.replace('/login');
 };
 
   return (
