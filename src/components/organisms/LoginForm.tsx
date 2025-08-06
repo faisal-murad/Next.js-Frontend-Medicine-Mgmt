@@ -29,8 +29,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);
  //TODO: comment below
         try { 
-    
-          if (formData.email === 'rphwaris@gmail.com' && formData.password === '123456789') {
+     const email = formData.email.trim().toLowerCase();
+          if (email === 'rphwaris@gmail.com' && formData.password === '123456789') {
             router.replace('/dashboard');
           } else {
             setError('Login failed');
