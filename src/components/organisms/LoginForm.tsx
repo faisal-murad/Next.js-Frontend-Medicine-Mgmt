@@ -27,8 +27,28 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // This is crucial to prevent form default behavior
     setError('');
     setLoading(true);
+ //TODO: comment below
+        try { 
+    
+          if (formData.email === 'rphwaris@gmail.com' && formData.password === '123456789') {
+            router.replace('/dashboard');
+          } else {
+            setError('Login failed');
+          }
+        } catch (error: unknown) {
+    
+          if (typeof error === "object" && error !== null && "response" in error) {
+            const err = error as { response?: { data?: { message?: string } } };
+            setError(err.response?.data?.message || 'An unexpected error occurred');
+          }
+    
+          return { success: false, error: "Login failed" };
+        } finally {
+          setLoading(false);
+        }
 
-        router.replace('/dashboard');
+
+        //TODO: uncomment later below
     // try {
     //   const result = await login(formData.email, formData.password);
 
