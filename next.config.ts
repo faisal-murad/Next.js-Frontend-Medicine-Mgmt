@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/',
-        destination: '/dashboard',
+        destination: '/login',//TODO: change to dashboard
         permanent: true, 
       }
     ]
