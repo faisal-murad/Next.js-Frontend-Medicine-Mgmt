@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react'
-// import axiosInstance from '@/lib/axiosInstance';
+import React from 'react' 
 import { AuthProvider } from '@/components/context/AuthContext';  
 import LoginTemplate from '@/components/templates/loginTemplate/LoginTemplate';
 

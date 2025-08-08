@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { FormField } from "../molecules/FormLabel";
-// import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { FaLock } from "react-icons/fa";
-// import { LoginResponse } from "@/types/LoginResponse";
+import { LoginResponse } from "@/types/LoginResponse";
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -14,7 +14,7 @@ export const LoginForm = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  // const { login } = useAuth() as { login: (email: string, password: string) => Promise<LoginResponse> };
+  const { login } = useAuth() as { login: (email: string, password: string) => Promise<LoginResponse> };
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,47 +27,26 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // This is crucial to prevent form default behavior
     setError('');
     setLoading(true);
- //TODO: comment below
-        try { 
-     const email = formData.email.trim().toLowerCase();
-          if (email === 'rphwaris@gmail.com' && formData.password === '123456789') {
-            router.replace('/dashboard');
-          } else {
-            setError('Login failed');
-          }
-        } catch (error: unknown) {
-    
-          if (typeof error === "object" && error !== null && "response" in error) {
-            const err = error as { response?: { data?: { message?: string } } };
-            setError(err.response?.data?.message || 'An unexpected error occurred');
-          }
-    
-          return { success: false, error: "Login failed" };
-        } finally {
-          setLoading(false);
-        }
+    try {
+      const result = await login(formData.email, formData.password);
+      console.log("🚀 ~ handleSubmit ~ result:", result)
 
+      if (result.success) {
+        router.replace('/dashboard');
+      } else {
+        setError(result.error || 'Login failed');
+      }
+    } catch (error: unknown) {
 
-        //TODO: uncomment later below
-    // try {
-    //   const result = await login(formData.email, formData.password);
+      if (typeof error === "object" && error !== null && "response" in error) {
+        const err = error as { response?: { data?: { message?: string } } };
+        setError(err.response?.data?.message || 'An unexpected error occurred');
+      }
 
-    //   if (result.success) {
-    //     router.replace('/dashboard');
-    //   } else {
-    //     setError(result.error || 'Login failed');
-    //   }
-    // } catch (error: unknown) {
-
-    //   if (typeof error === "object" && error !== null && "response" in error) {
-    //     const err = error as { response?: { data?: { message?: string } } };
-    //     setError(err.response?.data?.message || 'An unexpected error occurred');
-    //   }
-
-    //   return { success: false, error: "Login failed" };
-    // } finally {
-    //   setLoading(false);
-    // }
+      return { success: false, error: "Login failed" };
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
