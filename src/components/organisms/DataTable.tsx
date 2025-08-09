@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/table"
 
 interface DataTableProps<TData, TValue> {
+  loading?: boolean,
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
 export function DataTable<TData, TValue>({
+  loading,
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -32,7 +34,7 @@ export function DataTable<TData, TValue>({
   })
 
   return (
-    <div className="overflow-hidden rounded-md border m-2">
+    <div className="overflow-hidden rounded-md border w-full">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -43,9 +45,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 )
               })}
@@ -69,7 +71,10 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                {loading ?
+                  <div className="flex items-center justify-center h-screen">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900"></div>
+                  </div> : 'No results.'}
               </TableCell>
             </TableRow>
           )}

@@ -6,25 +6,19 @@ import axiosInstance from "@/lib/axiosInstance"
 import { toast } from "sonner"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 
 export const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
 const handleLogout = async (): Promise<void> => {
-  setLoading(true);
-  try {
-    await axiosInstance.post('/auth/logout');
-  } catch (error) {
-    console.error("Logout error:", error);
-    toast.error('Failed to logout');
-  } finally {
-    toast.success('Logged out successfully');
-    document.cookie = "auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  setLoading(true); 
+    toast.success('Logged out successfully'); 
+    Cookies.remove('auth', { path: '/' }); // Remove auth cookie
     router.replace('/login');
     setLoading(false);
-  } 
-};
+  }  
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6 z-10 bg-black border-b border-gray-800 shadow-2xl fixed top-0">

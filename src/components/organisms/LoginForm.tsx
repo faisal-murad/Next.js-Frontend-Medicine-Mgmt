@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { FaLock } from "react-icons/fa";
-import { LoginResponse } from "@/types/LoginResponse";
+import { LoginResponse } from "@/types/LoginResponse"; 
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -28,10 +28,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setError('');
     setLoading(true);
     try {
-      const result = await login(formData.email, formData.password);
+      const result:LoginResponse = await login(formData.email, formData.password);
       console.log("🚀 ~ handleSubmit ~ result:", result)
 
-      if (result.success) {
+      if (result.success) { 
         router.replace('/dashboard');
       } else {
         setError(result.error || 'Login failed');

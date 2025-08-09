@@ -4,6 +4,8 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import axiosInstance from '@/lib/axiosInstance';
 import { useRouter } from "next/navigation";
 import type { LoginResponse } from "../../types/LoginResponse";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 export const AuthContext = createContext({});
 
@@ -48,18 +50,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password: password
       });
 
-      const { token, ...userData } = response.data;
+      if(response?.data?.success === false) {
+        toast.error(response?.data?.error || 'Login failed');
+        return { success: false, error: response?.data?.error || 'Login failed' };
+      }
 
-      // Store in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(userData));
+      const { data } = response.data; 
+      const { token, ...userData} = data;
+ 
+      Cookies.set('auth', data?.token, { path: '/' }); // Set cookie with 7 days expiration
 
       // Update state
       setUser(userData);
       router.push('/dashboard'); // Redirect to dashboard after login
 
 
-      return { success: true, user: userData };
+      return response?.data;
     } catch (error: unknown) {
       console.error("Login error:", error);
 
