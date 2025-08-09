@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // Update state
       setUser(userData);
-      router.push('/dashboard'); // Redirect to dashboard after login
+      router.replace('/dashboard'); // Redirect to dashboard after login
 
 
       return response?.data;
